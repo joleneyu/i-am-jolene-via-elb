@@ -1,17 +1,16 @@
 # Filter out spot instances id
 
-# data "aws_instance" "i-am-jolene-a" {
-#   instance_tags = {
-#     Name = "i-am-jolene-a"
-#   }
-# }
+data "aws_instance" "i-am-jolene-a" {
+  instance_tags = {
+    Name = "i-am-jolene-a"
+  }
+}
 
-# data "aws_instance" "i-am-jolene-b" {
-#   filter {
-#     name   = "tag: Name"
-#     values = "i-am-jolene-b"
-#   }
-# }
+data "aws_instance" "i-am-jolene-b" {
+  instance_tags = {
+    Name = "i-am-jolene-b"
+  }
+}
 
 # Creat a new classic ELB
 
@@ -19,10 +18,10 @@ resource "aws_elb" "i-am-jolene" {
   name                      = "i-am-jolene-elb"
   cross_zone_load_balancing = true
   subnets                   = module.vpc.public_subnets
-  # instances                 = [
-  #   data.aws_instance.i-am-jolene-a.id,
-  #   data.aws_instance.i-am-jolene-b.id
-  # ]
+  instances                 = [
+    data.aws_instance.i-am-jolene-a.id,
+    data.aws_instance.i-am-jolene-b.id
+  ]
 
   listener {
     instance_port     = 3000
