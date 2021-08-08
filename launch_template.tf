@@ -2,7 +2,8 @@ resource "aws_launch_template" "spot_instance" {
   name = "i-am-jolene"
   image_id = "ami-0c9fe0dec6325a30c"
   instance_type = "t2.micro"
-  
+  user_data = base64encode(file("run_on_ec2.sh"))
+
   instance_market_options {
     market_type = "spot"
     spot_options {
@@ -10,9 +11,9 @@ resource "aws_launch_template" "spot_instance" {
       spot_instance_type = "one-time"
     }
   }
-  
+
   network_interfaces {
-    associate_public_ip_address = false
+    associate_public_ip_address = true
     security_groups = [aws_security_group.app-sg.id]
   } 
 }
