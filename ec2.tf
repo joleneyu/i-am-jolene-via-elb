@@ -5,7 +5,7 @@ resource "aws_instance" "i-am-jolene-a" {
     name = aws_launch_template.spot_instance.name
     version = "$Latest"
   }
-  subnet_id = module.vpc.public_subnets[0]
+  subnet_id = module.vpc.private_subnets[0]
 
   key_name = "test-key"
 
@@ -19,7 +19,7 @@ resource "aws_instance" "i-am-jolene-b" {
     name = aws_launch_template.spot_instance.name
     version = "$Latest"
   }
-  subnet_id = module.vpc.public_subnets[1] 
+  subnet_id = module.vpc.private_subnets[1] 
 
   tags = {
     Name = "i-am-jolene-b"

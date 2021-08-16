@@ -11,13 +11,15 @@ module "vpc" {
   private_subnets = var.private_subnets
   public_subnets  = var.public_subnets
 
-  enable_nat_gateway = false
+  enable_nat_gateway = true
+  single_nat_gateway = true
+  one_nat_gateway_per_az =false
 
   create_database_subnet_group = false
 
 
   tags = {
-    Environment = "Production"
+    Environment = "Development"
     Team        = "Network"
   }
 }
