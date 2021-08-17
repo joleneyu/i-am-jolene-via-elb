@@ -28,10 +28,10 @@ resource "aws_elb" "i-am-jolene" {
   cross_zone_load_balancing = true
   subnets                   = module.vpc.public_subnets
   security_groups           = [aws_security_group.elb-sg.id]
-  instances                 = [
-    aws_instance.i-am-jolene-a.id,
-    aws_instance.i-am-jolene-b.id
-  ]
+  # instances                 = [
+  #   aws_instance.i-am-jolene-a.id,
+  #   aws_instance.i-am-jolene-b.id
+  # ]
 
   listener {
     instance_port     = 80
