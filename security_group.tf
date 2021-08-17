@@ -12,13 +12,6 @@ resource "aws_security_group" "app-sg" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
-  #   ingress {
-  #   from_port        = 0
-  #   to_port          = 0
-  #   protocol         = "-1"
-  #   cidr_blocks      = ["0.0.0.0/0"]
-  # }
-
   tags = {
     Name = "APP-SG"
   }
@@ -34,3 +27,53 @@ resource "aws_security_group_rule" "app-sg" {
   security_group_id = aws_security_group.app-sg.id
   source_security_group_id = aws_elb.i-am-jolene.source_security_group_id
 }
+
+
+
+# Create another SG to allow all ingress traffic rule to default security group
+
+resource "aws_security_group" "elb-sg" {
+  name              = "ELB-SG"
+  description       = "Allow public traffic get through"  
+  vpc_id = module.vpc.vpc_id
+
+    egress {
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ELB-SG"
+  }
+}
+  # ingress = {
+  #     protocol  = "-1"
+  #     cidr_blocks = ["0.0.0.0/0"]
+  #     from_port = 0
+  #     to_port   = 0
+  #   }
+
+resource "aws_security_group_rule" "elb-sg" {
+  # count           = var.env == "dev" ? 1 : 0
+  description       = "all-public-traffic"
+  type              = "ingress"
+  to_port           = 0
+  protocol          = "-1"
+  from_port         = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.elb-sg.id
+}
+
+resource "aws_security_group_rule" "default" {
+  # count           = var.env == "dev" ? 1 : 0
+  description       = "default-inbound-rule"
+  type              = "ingress"
+  self              = true
+  to_port           = 0
+  protocol          = "-1"
+  from_port         = 0
+  security_group_id = aws_security_group.elb-sg.id
+}
+
