@@ -17,7 +17,7 @@ resource "aws_security_group" "app-sg" {
   }
 }
 
-# Apply the source SG rule to app-sg, comment out for testing ssh connection
+# Apply the SG rule to app-sg, comment out for testing ssh connection
 
 resource "aws_security_group_rule" "app-sg" {
   type              = "ingress"
@@ -30,7 +30,7 @@ resource "aws_security_group_rule" "app-sg" {
 
 
 
-# Create another SG to allow all ingress traffic rule to default security group
+# Create a security group to associate with ELB
 
 resource "aws_security_group" "elb-sg" {
   name              = "ELB-SG"
@@ -54,6 +54,8 @@ resource "aws_security_group" "elb-sg" {
   #     from_port = 0
   #     to_port   = 0
   #   }
+
+# Apply security rules to elb-sg
 
 resource "aws_security_group_rule" "elb-sg" {
   # count           = var.env == "dev" ? 1 : 0

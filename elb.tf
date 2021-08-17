@@ -1,4 +1,4 @@
-# Filter out spot instances id
+# Filter out spot instances id, comment out since not using spot instance requests
 
 # data "aws_instance" "i-am-jolene-a" {
 #   instance_tags = {
